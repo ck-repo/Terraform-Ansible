@@ -1,4 +1,4 @@
-name: CI
+name: Terraform Pipeline
 
 # Controls when the workflow will run
 on:
@@ -12,12 +12,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate:
+  validate & deploy:
     name: Validate Terraform
     runs-on: ubuntu-latest
     steps:
     - name: Check out code  
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Run a Terraform init  
       uses: docker://hashicorp/docker/terraform:1.0.5
@@ -30,17 +30,13 @@ jobs:
       with:
         entrypoint: terraform
         args: validate
-  deploy:
-    name: Deploy to AWS
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+        
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
 

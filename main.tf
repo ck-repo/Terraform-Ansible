@@ -1,0 +1,35 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.27"
+    }
+  }
+}
+
+provider "aws" {
+  region                  = "us-east-1"
+  shared_credentials_file = "C:\\Users\\c_a_k\\.aws\\credentials"
+  profile                 = "CAK-MASTER-IAM"
+}
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "single-instance"
+
+  ami                    = "ami-087c17d1fe0178315"
+  instance_type          = "t2.micro"
+  key_name               = "Test"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-0a1a3a4a"]
+  subnet_id              = "subnet-1138155b"
+  user_data              = var.user_data
+  iam_instance_profile   = "ansible_s3"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}

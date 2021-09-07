@@ -1,0 +1,46 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the Source branch
+  push:
+    branches: [ Source ]
+  pull_request:
+    branches: [ Source ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code  
+      uses: actions/checkout@v1
+
+    - name: Run a Terraform init  
+      uses: docker://hashicorp/terraform:0.12.11
+      with:
+        entrypoint: terraform
+        args: init
+
+    - name: Run a Terraform validate    
+      uses: docker://hashicorp/terraform:0.12.11
+      with:
+        entrypoint: terraform
+        args: validate
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+

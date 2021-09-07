@@ -37,7 +37,7 @@ variable "key_name" {
 
 variable "vpc_security_group_ids" {
   description = "Security Group IDs."
-  type        = string
+  type        = list(string)
 }
 
 variable "subnet_id" {

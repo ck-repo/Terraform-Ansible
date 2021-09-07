@@ -14,3 +14,4 @@ variable "user_data" {
 EOF
 
 }
+

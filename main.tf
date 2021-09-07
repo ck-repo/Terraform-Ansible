@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "us-east-1"
-  shared_credentials_file = "C:\\Users\\c_a_k\\.aws\\credentials"
-  profile                 = "CAK-MASTER-IAM"
+  region     = "us-east-1"
+  access_key = "AWS_ACCESS_KEY_ID"
+  secret_key = "AWS_SECRET_ACCESS_KEY"
 }
 
 module "ec2_instance" {

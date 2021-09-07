@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate & deploy:
+  validate-deploy:
     name: Validate Terraform
     runs-on: ubuntu-latest
     steps:

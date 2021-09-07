@@ -20,7 +20,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run a Terraform init  
-      uses: docker://hashicorp/docker/terraform:0.12.11
+      uses: docker://hashicorp/terraform:0.12.11
       with:
         entrypoint: terraform
         args: init

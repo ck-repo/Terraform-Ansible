@@ -16,16 +16,16 @@ module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0"
 
-  name = "single-instance"
+  name = var.name
 
-  ami                    = "ami-087c17d1fe0178315"
-  instance_type          = "t2.micro"
-  key_name               = "Test"
+  ami                    = var.ami
+  instance_type          = var.instance_type
+  key_name               = var.key_name
   monitoring             = true
-  vpc_security_group_ids = ["sg-0a1a3a4a"]
-  subnet_id              = "subnet-1138155b"
+  vpc_security_group_ids = var.vpc_security_group_ids
+  subnet_id              = var.subnet_id
   user_data              = var.user_data
-  iam_instance_profile   = "ansible_s3"
+  iam_instance_profile   = var.iam_instance_profile
 
   tags = {
     Terraform   = "true"

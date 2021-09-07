@@ -7,9 +7,9 @@ terraform {
 }
 
 provider "aws" {
-  region     = "us-east-1"
-  access_key = "aws-access-key-id"
-  secret_key = "aws-secret-access-key"
+  region     = "AWS_DEFAULT_REGION"
+  access_key = "AWS_ACCESS_KEY_ID"
+  secret_key = "AWS_SECRET_ACCESS_KEY"
 }
 
 module "ec2_instance" {
@@ -32,3 +32,4 @@ module "ec2_instance" {
     Environment = "dev"
   }
 }
+        

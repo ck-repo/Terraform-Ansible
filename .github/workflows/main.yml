@@ -32,7 +32,8 @@ jobs:
     - name: Lint Ansible Playbook
       uses: ansible/ansible-lint-action@master
       with:
-        targets: "/Ansible/httpd.yaml"
+        targets: "Ansible/httpd.yaml"
+      if: ${{ github.event_name == 'pull_request' }}
 
     - name: Setup Build AWS Credentials
       run: |

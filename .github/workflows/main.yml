@@ -25,6 +25,15 @@ jobs:
     - name: Run a Terraform init  
       run: terraform init
 
+    - name: Run a Terraform validate  
+      run: terraform validate
+      if: ${{ github.event_name == 'pull_request' }}
+
+    - name: Lint Ansible Playbook
+      uses: ansible/ansible-lint-action@master
+      with:
+        targets: "/Ansible/httpd.yaml"
+
     - name: Setup Build AWS Credentials
       run: |
         mkdir -p ~/.aws

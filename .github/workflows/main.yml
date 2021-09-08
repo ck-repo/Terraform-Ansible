@@ -1,11 +1,14 @@
-name: Terraform Pipeline - Master
+name: Terraform Pipeline
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on pull request events but only for the Master branch
+  # Triggers the workflow on pull request events but only for the Master branch and push request events only for the Dev branch.
 
   pull_request:
     branches: [ Master ]
+
+  push:
+    branches: [ Dev ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,6 +23,17 @@ jobs:
     - name: Run a Terraform init  
       run: terraform init
 
+    - name: Setup Build AWS Credentials
+      run: |
+        mkdir -p ~/.aws
+        echo "[default]" > ~/.aws/credentials
+        echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+        echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+
+    - name: Run a Terraform plan 
+      run: terraform plan
+      if: ${{ github.ref == 'refs/heads/dev' }}
+
     - name: Upload Playbook to S3
       uses: jakejarvis/s3-sync-action@master
       env:
@@ -27,14 +41,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         SOURCE_DIR: 'Ansible'
-        
-    - name: Setup Build AWS Credentials
-      run: |
-          mkdir -p ~/.aws
-          echo "[default]" > ~/.aws/credentials
-          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-         
+      if: ${{ github.ref == 'refs/heads/main' }}
+
     - name: Terraform Apply
       run: terraform apply -auto-approve
+      if: ${{ github.ref == 'refs/heads/main' }}
 

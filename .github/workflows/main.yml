@@ -29,6 +29,12 @@ jobs:
       run: terraform validate
       if: ${{ github.event_name == 'pull_request' }}
 
+    - name: Run a tfsec scan
+      uses: tfsec/tfsec-pr-commenter-action@main
+      with:
+        github_token: $
+      if: ${{ github.event_name == 'pull_request' }}
+
     - name: Lint Ansible Playbook
       uses: ansible/ansible-lint-action@master
       with:

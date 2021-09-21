@@ -32,13 +32,3 @@ module "ec2_instance" {
     Environment = "dev"
   }
 }    
-
-resource "aws_s3_bucket" "tfsec_bad_example" {
-  bucket = "tfsec-bad-bucket-1234"
-}
-
-resource "aws_s3_bucket_public_access_block" "tfsec_bad_example" {
-  bucket = aws_s3_bucket.tfsec_bad_example.id
-
-  block_public_policy = false
-}

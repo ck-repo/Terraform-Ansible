@@ -9,6 +9,7 @@ Repo for the use of Terraform, Ansible and GitHub Actions to deploy simple EC2 I
 - The Dev pipeline runs on the pull request and performs:
 
   - Terraform Validate to confirm that the TF syntax is correct
+  - TFsec to perform static security analysis of the TF template(s) and raise PR comments if security issues are detected
   - Ansible Linting to confirm that the playbook is formatted correctly
   - Terraform Plan to see what will be deployed
   
@@ -29,7 +30,6 @@ Repo for the use of Terraform, Ansible and GitHub Actions to deploy simple EC2 I
 ## Potential Future Enhancements
 
 - Use of Terratest (https://terratest.gruntwork.io/) to apply Terraform in a sandbox/test AWS Account on pull request in the Dev branch
-- Use of TFSec (https://tfsec.dev/) to perform a static security analysis of the Terraform code on pull request in the Dev branch
 - Use of AWS IAM Assume Role into Spoke AWS Accounts from the Root Account in AWS Organisations 
 - Support for other Cloud Providers
    

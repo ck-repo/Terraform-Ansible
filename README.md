@@ -10,7 +10,7 @@ Repo for the use of Terraform, Ansible and GitHub Actions to deploy simple EC2 I
 
   - Terraform Validate to confirm that the TF syntax is correct
   - Ansible Linting to confirm that the playbook is formatted correctly
-  - Terraform Plan to what will be deployed
+  - Terraform Plan to see what will be deployed
   
 - If any errors are seen then the pull request will not allow the merge from Dev into Master occur. 
 - If everything is ok or the problem is fixed the pull request can be approved to perform a merge into to Master. 
@@ -21,7 +21,7 @@ Repo for the use of Terraform, Ansible and GitHub Actions to deploy simple EC2 I
    
 ### Notes
 
-- The Ansible S3 bucket is not private
+- The Ansible S3 bucket is private
 - The S3 Bucket name is stored in repo secrets and presented as a environment variable during pipeline runs
 - AWS IAM Secrets are stored in repo secrets and presented as environment variables during pipeline runs
 - The Ansible playbook is basic, purpose of the repo is to validate the interoperability between Terraform, Ansible and GitHub actions rather than a detailed review of the power of Ansible
